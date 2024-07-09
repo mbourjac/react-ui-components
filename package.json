@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tanstack/react-router": "^1.26.12",
+    "@tanstack/react-router": "^1.43.13",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.28",
     "react": "^18.2.0",

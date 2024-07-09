@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors');
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -8,8 +9,9 @@ export default {
         body: ['Raleway', 'sans-serif'],
       },
       colors: {
-        'off-black': '#1d1d1d',
+        'off-black': '#0c0c0c',
         'off-white': '#fffcf7',
+        primary: colors.slate[200],
       },
     },
   },
