@@ -1,20 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
+import { Link, Outlet, useLocation } from '@tanstack/react-router';
 import { motion, useAnimate } from 'framer-motion';
 import { useWindowSize } from '../../hooks/use-window-size';
-import type { AllRoutes } from '../../router/router.types';
 import { UI_COMPONENTS } from './AppLayout.constants';
 
 export const AppLayout = () => {
   const pathname = useLocation({
     select: (location) => location.pathname,
   });
-  const navigate = useNavigate();
   const [scope, animate] = useAnimate();
-
+  const { windowHeight } = useWindowSize();
   const [isHome, setIsHome] = useState(pathname === '/');
 
-  const { windowHeight } = useWindowSize();
   const initialBorderRadius = Math.ceil((windowHeight - 2 * 16) / 2);
 
   const homePageVariant = useMemo(
@@ -32,28 +29,23 @@ export const AppLayout = () => {
 
   const animationTransition = useMemo(() => ({ duration: 0.25 }), []);
 
+  const restAnimation = useCallback(async () => {
+    await animate(scope.current, homePageVariant, animationTransition);
+  }, [animate, scope, homePageVariant, animationTransition]);
+
   const expandAnimation = useCallback(async () => {
     await animate(scope.current, componentPageVariant, animationTransition);
   }, [animate, scope, componentPageVariant, animationTransition]);
 
-  const handeClick = async (to: AllRoutes) => {
-    await navigate({ to });
-    await expandAnimation();
-  };
-
   useEffect(() => {
     setIsHome(pathname === '/');
-  }, [pathname]);
 
-  useEffect(() => {
-    if (!isHome) return;
-
-    const restAnimation = async () => {
-      await animate(scope.current, homePageVariant, animationTransition);
-    };
-
-    void restAnimation();
-  }, [isHome, animate, scope, homePageVariant, animationTransition]);
+    if (isHome) {
+      void restAnimation();
+    } else {
+      void expandAnimation();
+    }
+  }, [pathname, isHome, expandAnimation, restAnimation]);
 
   return (
     <div className="grid h-screen grid-cols-[1fr_1fr] items-center overflow-hidden">
@@ -69,9 +61,9 @@ export const AppLayout = () => {
       <div className="p-4 pl-2">
         <div className="flex h-[calc(100vh-2rem)] flex-col gap-4 overflow-auto rounded-2xl border border-off-black bg-primary p-4">
           {UI_COMPONENTS.map(({ pathname, name, tags }) => (
-            <button
+            <Link
               key={name}
-              onClick={() => void handeClick(pathname)}
+              to={pathname}
               className="group flex flex-col border-b border-off-black text-left transition-all"
             >
               <div className="flex flex-col gap-1">
@@ -87,7 +79,7 @@ export const AppLayout = () => {
                 </ul>
                 <h2 className="text-lg uppercase">{name}</h2>
               </div>
-            </button>
+            </Link>
           ))}
         </div>
       </div>
