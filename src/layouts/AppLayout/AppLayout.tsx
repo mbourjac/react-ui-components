@@ -12,40 +12,44 @@ export const AppLayout = () => {
   const { windowHeight } = useWindowSize();
   const [isHome, setIsHome] = useState(pathname === '/');
 
-  const initialBorderRadius = Math.ceil((windowHeight - 2 * 16) / 2);
-
-  const homePageVariant = useMemo(
+  const componentContainerVariants = useMemo(
     () => ({
-      borderRadius: initialBorderRadius,
-      height: 'min(calc((100vw - 2rem) / 2), calc(100vh - 2rem))',
+      collapsed: {
+        borderRadius: Math.ceil((windowHeight - 2 * 16) / 2),
+        height: 'min(calc((100vw - 2rem) / 2), calc(100vh - 2rem))',
+      },
+      expanded: { borderRadius: 16, height: '100%' },
     }),
-    [initialBorderRadius],
-  );
-
-  const componentPageVariant = useMemo(
-    () => ({ borderRadius: 16, height: '100%' }),
-    [],
+    [windowHeight],
   );
 
   const animationTransition = useMemo(() => ({ duration: 0.25 }), []);
 
-  const restAnimation = useCallback(async () => {
-    await animate(scope.current, homePageVariant, animationTransition);
-  }, [animate, scope, homePageVariant, animationTransition]);
+  const collapseComponentContainer = useCallback(async () => {
+    await animate(
+      scope.current,
+      componentContainerVariants.collapsed,
+      animationTransition,
+    );
+  }, [animate, scope, componentContainerVariants, animationTransition]);
 
-  const expandAnimation = useCallback(async () => {
-    await animate(scope.current, componentPageVariant, animationTransition);
-  }, [animate, scope, componentPageVariant, animationTransition]);
+  const expandComponentContainer = useCallback(async () => {
+    await animate(
+      scope.current,
+      componentContainerVariants.expanded,
+      animationTransition,
+    );
+  }, [animate, scope, componentContainerVariants, animationTransition]);
 
   useEffect(() => {
     setIsHome(pathname === '/');
 
     if (isHome) {
-      void restAnimation();
+      void collapseComponentContainer();
     } else {
-      void expandAnimation();
+      void expandComponentContainer();
     }
-  }, [pathname, isHome, expandAnimation, restAnimation]);
+  }, [pathname, isHome, expandComponentContainer, collapseComponentContainer]);
 
   return (
     <div className="grid h-screen grid-cols-[1fr_1fr] items-center overflow-hidden">
@@ -53,7 +57,11 @@ export const AppLayout = () => {
         <motion.div
           ref={scope}
           className="mx-auto flex w-full max-w-[calc(100vh-2rem)] items-center justify-center bg-off-black"
-          initial={isHome ? homePageVariant : componentPageVariant}
+          initial={
+            isHome ?
+              componentContainerVariants.collapsed
+            : componentContainerVariants.expanded
+          }
         >
           <Outlet />
         </motion.div>
