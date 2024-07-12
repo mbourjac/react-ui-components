@@ -4,7 +4,7 @@ import { UI_COMPONENTS } from './AppLayout.constants';
 export const AppLayout = () => {
   return (
     <div className="grid h-screen grid-cols-[1fr_1fr] items-center overflow-hidden">
-      <main className="flex h-full p-4 pr-2">
+      <main className="flex h-full w-[50vw] p-4 pr-2">
         <Outlet />
       </main>
       <div className="p-4 pl-2">
