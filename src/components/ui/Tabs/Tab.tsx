@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import type { ArrayElement } from '../../../helpers/types';
 import { cn } from '../../../lib/tailwind';
 import type { TabsProps } from './Tabs';
@@ -28,9 +29,15 @@ export const Tab = ({
       id={id}
       tabIndex={isActive ? 0 : -1}
       onClick={() => setActiveTabIndex(index)}
-      className={cn(className)}
+      className={cn('relative', className)}
     >
-      {label}
+      <span>{label}</span>
+      {isActive ?
+        <motion.span
+          className="absolute bottom-[-1px] left-0 right-0 inline-block h-[1px] bg-primary"
+          layoutId="underline"
+        />
+      : null}
     </button>
   );
 };

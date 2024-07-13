@@ -35,6 +35,7 @@ export const Tabs = ({
       >
         {tabs.map((tab, index) => {
           const { className, ...restProps } = tab;
+
           return (
             <Tab
               key={tab.id}

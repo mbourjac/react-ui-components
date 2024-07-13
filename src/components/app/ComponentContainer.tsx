@@ -53,7 +53,7 @@ export const ComponentContainer = ({
   return (
     <Tabs
       tabListClassName="flex"
-      tabClassName="w-1/2 bg-off-black px-4 py-2 text-left data-[active=true]:border-b"
+      tabClassName="w-1/2 bg-off-black px-4 py-2 text-left"
       tabs={tabs}
     />
   );
