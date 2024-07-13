@@ -1,12 +1,13 @@
 import { ComponentContainer } from '../../components/app/ComponentContainer';
 import { useComponent } from '../../hooks/use-component';
 import { CharactersRandomizer } from './CharactersRandomizer';
+import { CharactersRandomizerCode } from './CharactersRandomizerPage.constants';
 
 export const CharactersRandomizerPage = () => {
   const { name, description } = useComponent();
 
   return (
-    <div className="flex w-full flex-col gap-8 text-primary">
+    <>
       <div className="flex flex-col gap-2">
         <h1 className="rounded-2xl bg-off-black p-4 text-lg uppercase">
           {name}
@@ -16,17 +17,15 @@ export const CharactersRandomizerPage = () => {
         </p>
       </div>
       <ComponentContainer
-        code="Lorem ipsum"
+        code={CharactersRandomizerCode}
         previewPanelClassName="text-4xl font-semibold uppercase"
       >
-        <>
-          <CharactersRandomizer
-            className="break-words"
-            referenceString="Lorem ipsum dolor sit amet."
-            isConcurrent
-          />
-        </>
+        <CharactersRandomizer
+          className="break-words"
+          referenceString="Lorem ipsum dolor sit amet."
+          isConcurrent
+        />
       </ComponentContainer>
-    </div>
+    </>
   );
 };

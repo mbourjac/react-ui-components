@@ -14,6 +14,7 @@
     "@tanstack/react-router": "^1.43.13",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.28",
+    "highlight.js": "^11.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.2.1"
