@@ -1,10 +1,8 @@
 import { ComponentContainer } from '../../components/app/ComponentContainer';
 import { useComponent } from '../../hooks/use-component';
-import { CharactersRandomizer } from './CharactersRandomizer';
-import { CharactersRandomizerCode } from './CharactersRandomizerPage.constants';
 
 export const CharactersRandomizerPage = () => {
-  const { name, description } = useComponent();
+  const { name, description, componentPreview, code } = useComponent();
 
   return (
     <>
@@ -16,16 +14,7 @@ export const CharactersRandomizerPage = () => {
           {description}
         </p>
       </div>
-      <ComponentContainer
-        code={CharactersRandomizerCode}
-        previewPanelClassName="text-4xl font-semibold uppercase"
-      >
-        <CharactersRandomizer
-          className="break-words"
-          referenceString="Lorem ipsum dolor sit amet."
-          isConcurrent
-        />
-      </ComponentContainer>
+      <ComponentContainer component={componentPreview} code={code} />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { useLocation } from '@tanstack/react-router';
-import { UI_COMPONENTS } from '../layouts/AppLayout/AppLayout.constants';
+import { UI_COMPONENTS } from '../App.constants';
 
 export const useComponent = () => {
   const pathname = useLocation({
