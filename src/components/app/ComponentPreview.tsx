@@ -1,4 +1,6 @@
+import { cloneElement, useState } from 'react';
 import { HighlightedCode } from '../ui/HighlightedCode';
+import { IconButton } from '../ui/Icon/IconButton';
 import { Tabs } from '../ui/Tabs/Tabs';
 
 type ComponentPreviewProps = {
@@ -7,16 +9,31 @@ type ComponentPreviewProps = {
 };
 
 export const ComponentPreview = ({
-  component,
+  component: Component,
   code,
 }: ComponentPreviewProps) => {
+  const [componentKey, setComponentKey] = useState(0);
+
+  const handleReloadComponent = () => {
+    setComponentKey((prevComponentKey) => prevComponentKey + 1);
+  };
+
   const TABS = [
     {
       label: 'Preview',
       id: 'preview-tab',
       controls: 'preview-panel',
       content: (
-        <div className="rounded-b-2xl bg-off-black p-4">{component}</div>
+        <div className="relative rounded-b-2xl bg-off-black p-4">
+          <div className="absolute right-4 top-2">
+            <IconButton
+              kind="reload"
+              screenReaderLabel="Reload component"
+              handleClick={handleReloadComponent}
+            />
+          </div>
+          {cloneElement(Component, { key: componentKey })}
+        </div>
       ),
     },
     {

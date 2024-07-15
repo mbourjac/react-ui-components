@@ -34,7 +34,7 @@ export const Tab = ({
       <span>{label}</span>
       {isActive ?
         <motion.span
-          className="absolute bottom-[-1px] left-0 right-0 inline-block h-[1px] bg-primary"
+          className="absolute bottom-[-1px] left-0 right-0 z-10 inline-block h-[1px] bg-primary"
           layoutId="underline"
         />
       : null}
