@@ -1,15 +1,15 @@
 import { HighlightedCode } from '../ui/HighlightedCode';
 import { Tabs } from '../ui/Tabs/Tabs';
 
-type ComponentContainerProps = {
+type ComponentPreviewProps = {
   component: JSX.Element;
   code: string;
 };
 
-export const ComponentContainer = ({
+export const ComponentPreview = ({
   component,
   code,
-}: ComponentContainerProps) => {
+}: ComponentPreviewProps) => {
   const TABS = [
     {
       label: 'Preview',

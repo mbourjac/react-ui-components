@@ -1,4 +1,4 @@
-import { ComponentContainer } from '../../components/app/ComponentContainer';
+import { ComponentPreview } from '../../components/app/ComponentPreview';
 import { useComponent } from '../../hooks/use-component';
 
 export const CharactersRandomizerPage = () => {
@@ -14,7 +14,7 @@ export const CharactersRandomizerPage = () => {
           {description}
         </p>
       </div>
-      <ComponentContainer component={componentPreview} code={code} />
+      <ComponentPreview component={componentPreview} code={code} />
     </>
   );
 };
