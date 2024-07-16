@@ -8,7 +8,7 @@ export const CharactersRandomizerPage = () => {
     name,
     description,
     code,
-    props,
+    propsData,
     component,
     previewProps,
     initialPlaygroundProps,
@@ -29,7 +29,7 @@ export const CharactersRandomizerPage = () => {
         previewProps={previewProps}
         code={code}
       />
-      <ComponentProps props={props} />
+      <ComponentProps propsData={propsData} />
       <ComponentPlayground
         component={component}
         initialPlaygroundProps={initialPlaygroundProps}

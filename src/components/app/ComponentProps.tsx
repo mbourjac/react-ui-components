@@ -1,12 +1,10 @@
-import type { UiComponentProp } from '../../App.types';
+import type { UIComponentPropData } from '../../App.types';
 
 type ComponentPropsProps = {
-  props: UiComponentProp[];
+  propsData: UIComponentPropData[];
 };
 
-export const ComponentProps = ({
-  props: componentProps,
-}: ComponentPropsProps) => {
+export const ComponentProps = ({ propsData }: ComponentPropsProps) => {
   return (
     <div className="text-primary">
       <div className="overflow-x-auto rounded-2xl text-primary">
@@ -19,7 +17,7 @@ export const ComponentProps = ({
             </tr>
           </thead>
           <tbody className="bg-off-black">
-            {componentProps.map(
+            {propsData.map(
               ({
                 name,
                 type,

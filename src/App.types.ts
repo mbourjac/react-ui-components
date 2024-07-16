@@ -1,6 +1,6 @@
 import type { AllRoutes } from './router/router.types';
 
-export type UiComponent<T> = {
+export type UIComponent<T> = {
   pathname: AllRoutes;
   name: string;
   tags?: string[];
@@ -9,10 +9,10 @@ export type UiComponent<T> = {
   code: string;
   previewProps: T;
   initialPlaygroundProps: T;
-  props: UiComponentProp[];
+  propsData: UIComponentPropData[];
 };
 
-export type UiComponentProp = {
+export type UIComponentPropData = {
   name: string;
   type: string;
   description: string;

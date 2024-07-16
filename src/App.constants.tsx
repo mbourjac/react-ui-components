@@ -1,10 +1,10 @@
-import type { UiComponent } from './App.types';
+import type { UIComponent } from './App.types';
 import {
   CharactersRandomizer,
   type CharactersRandomizerProps,
 } from './pages/CharactersRandomizerPage/CharactersRandomizer';
 
-export const UI_COMPONENTS: UiComponent<CharactersRandomizerProps>[] = [
+export const UI_COMPONENTS: UIComponent<CharactersRandomizerProps>[] = [
   {
     pathname: '/characters-randomizer',
     name: 'Characters Randomizer',
@@ -220,7 +220,7 @@ export const CharactersRandomizer: {
       className:
         'mx-auto text-balance break-words py-16 text-4xl font-semibold uppercase',
     },
-    props: [
+    propsData: [
       {
         name: 'as',
         type: 'keyof JSX.IntrinsicElements',
