@@ -209,5 +209,76 @@ export const CharactersRandomizer: {
   );
 };
     `,
+    props: [
+      {
+        name: 'as',
+        type: 'keyof JSX.IntrinsicElements',
+        description: 'Specifies the HTML element to render.',
+        required: false,
+        defaultValue: "'p'",
+      },
+      {
+        name: 'className',
+        type: 'string',
+        description: 'Applies additional CSS classes.',
+        required: false,
+      },
+      {
+        name: 'referenceString',
+        type: 'string',
+        description:
+          'The target string that the displayed characters will eventually match.',
+        required: true,
+      },
+      {
+        name: 'delay',
+        type: 'number',
+        description: 'The delay in milliseconds between updates.',
+        required: false,
+        defaultValue: '65',
+      },
+      {
+        name: 'charactersCount',
+        type: 'number',
+        description:
+          'The number of random characters to select from the eligible set.',
+        required: false,
+        defaultValue: '3',
+      },
+      {
+        name: 'isConcurrent',
+        type: 'boolean',
+        description:
+          'Determines whether the randomization happens concurrently for all characters.',
+        required: false,
+      },
+      {
+        name: 'eligibleCharacters',
+        type: 'string | string[]',
+        description: 'A list of characters to use for randomization.',
+        required: false,
+      },
+      {
+        name: 'useDefaultCharacters',
+        type: 'boolean',
+        description:
+          'Indicates whether to include the default set of characters in the eligible set.',
+        required: false,
+        conditionallyRequiredBy: 'eligibleCharacters',
+      },
+      {
+        name: 'isReverse',
+        type: 'boolean',
+        description: 'Indicates whether the randomization should reverse.',
+        required: false,
+      },
+      {
+        name: 'reversedString',
+        type: 'string',
+        description: 'The string to display when reversing.',
+        required: false,
+        conditionallyRequiredBy: 'isReverse',
+      },
+    ],
   },
 ];

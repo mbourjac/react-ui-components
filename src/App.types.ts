@@ -7,4 +7,14 @@ export type UiComponent = {
   description: string;
   componentPreview: JSX.Element;
   code: string;
+  props: UiComponentProp[];
+};
+
+export type UiComponentProp = {
+  name: string;
+  type: string;
+  description: string;
+  required: boolean;
+  conditionallyRequiredBy?: string;
+  defaultValue?: string;
 };
