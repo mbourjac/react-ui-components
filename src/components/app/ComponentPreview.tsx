@@ -1,4 +1,4 @@
-import { cloneElement, useState } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 import { HighlightedCode } from '../ui/HighlightedCode';
 import { IconButton } from '../ui/Icon/IconButton';
 import { Tabs } from '../ui/Tabs/Tabs';
@@ -13,10 +13,26 @@ export const ComponentPreview = ({
   code,
 }: ComponentPreviewProps) => {
   const [componentKey, setComponentKey] = useState(0);
+  const [codeHasBeenCopied, setCodeHasBeenCopied] = useState(false);
 
   const handleReloadComponent = () => {
     setComponentKey((prevComponentKey) => prevComponentKey + 1);
   };
+
+  const handleCopyToClipboard = async () => {
+    await navigator.clipboard.writeText(code);
+    setCodeHasBeenCopied(true);
+  };
+
+  useEffect(() => {
+    if (codeHasBeenCopied) {
+      const codeCopiedTimeout = setTimeout(
+        () => setCodeHasBeenCopied(false),
+        2000,
+      );
+      return () => clearTimeout(codeCopiedTimeout);
+    }
+  }, [codeHasBeenCopied]);
 
   const TABS = [
     {
@@ -41,10 +57,16 @@ export const ComponentPreview = ({
       id: 'code-tab',
       controls: 'code-panel',
       content: (
-        <div className="rounded-b-2xl bg-off-black">
+        <div className="relative rounded-b-2xl bg-off-black">
+          <IconButton
+            kind={codeHasBeenCopied ? 'check' : 'clipboard'}
+            screenReaderLabel="Copy to clipboard"
+            handleClick={() => void handleCopyToClipboard()}
+            className="absolute right-4 top-2"
+          />
           <HighlightedCode
             code={code}
-            codeClassName="h-[40vh] rounded-b-2xl bg-off-black !p-4"
+            codeClassName="h-[40vh] rounded-b-2xl bg-off-black !p-4 !pt-8"
           />
         </div>
       ),
