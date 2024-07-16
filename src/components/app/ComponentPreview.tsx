@@ -1,17 +1,19 @@
-import { cloneElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HighlightedCode } from '../ui/HighlightedCode';
 import { IconButton } from '../ui/Icon/IconButton';
 import { Tabs } from '../ui/Tabs/Tabs';
 
-type ComponentPreviewProps = {
-  component: JSX.Element;
+type ComponentPreviewProps<T> = {
+  component: (props: T) => JSX.Element;
+  previewProps: T;
   code: string;
 };
 
-export const ComponentPreview = ({
+export const ComponentPreview = <T,>({
   component: Component,
+  previewProps,
   code,
-}: ComponentPreviewProps) => {
+}: ComponentPreviewProps<T>) => {
   const [componentKey, setComponentKey] = useState(0);
   const [codeHasBeenCopied, setCodeHasBeenCopied] = useState(false);
 
@@ -48,7 +50,7 @@ export const ComponentPreview = ({
               handleClick={handleReloadComponent}
             />
           </div>
-          {cloneElement(Component, { key: componentKey })}
+          <Component key={componentKey} {...previewProps} />
         </div>
       ),
     },

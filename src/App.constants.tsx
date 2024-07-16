@@ -1,20 +1,18 @@
 import type { UiComponent } from './App.types';
-import { CharactersRandomizer } from './pages/CharactersRandomizerPage/CharactersRandomizer';
+import {
+  CharactersRandomizer,
+  type CharactersRandomizerProps,
+} from './pages/CharactersRandomizerPage/CharactersRandomizer';
 
-export const UI_COMPONENTS: UiComponent[] = [
+export const UI_COMPONENTS: UiComponent<CharactersRandomizerProps>[] = [
   {
     pathname: '/characters-randomizer',
     name: 'Characters Randomizer',
     tags: ['text', 'animation', 'random'],
     description:
       'Generates and displays a sequence of randomized characters, gradually transforming into a target string over time.',
-    componentPreview: (
-      <CharactersRandomizer
-        className="mx-auto text-balance break-words py-16 text-4xl font-semibold uppercase"
-        referenceString="Lorem ipsum dolor sit amet."
-        isConcurrent
-      />
-    ),
+    component: CharactersRandomizer,
+
     code: `
 import { useCallback, useEffect, useState } from 'react';
 import { shuffleArray } from '@/helpers/arrays';
@@ -209,6 +207,19 @@ export const CharactersRandomizer: {
   );
 };
     `,
+    previewProps: {
+      className:
+        'mx-auto text-balance break-words py-16 text-4xl font-semibold uppercase',
+      referenceString: 'Lorem ipsum dolor sit amet.',
+      isConcurrent: true,
+    },
+    initialPlaygroundProps: {
+      referenceString: 'Lorem ipsum dolor sit amet.',
+      delay: 65,
+      isConcurrent: true,
+      className:
+        'mx-auto text-balance break-words py-16 text-4xl font-semibold uppercase',
+    },
     props: [
       {
         name: 'as',

@@ -1,9 +1,18 @@
+import { ComponentPlayground } from '../../components/app/ComponentPlayground/ComponentPlayground';
 import { ComponentPreview } from '../../components/app/ComponentPreview';
 import { ComponentProps } from '../../components/app/ComponentProps';
 import { useComponent } from '../../hooks/use-component';
 
 export const CharactersRandomizerPage = () => {
-  const { name, description, componentPreview, code, props } = useComponent();
+  const {
+    name,
+    description,
+    code,
+    props,
+    component,
+    previewProps,
+    initialPlaygroundProps,
+  } = useComponent();
 
   return (
     <>
@@ -15,8 +24,16 @@ export const CharactersRandomizerPage = () => {
           {description}
         </p>
       </div>
-      <ComponentPreview component={componentPreview} code={code} />
+      <ComponentPreview
+        component={component}
+        previewProps={previewProps}
+        code={code}
+      />
       <ComponentProps props={props} />
+      <ComponentPlayground
+        component={component}
+        initialPlaygroundProps={initialPlaygroundProps}
+      />
     </>
   );
 };

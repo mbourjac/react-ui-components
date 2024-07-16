@@ -21,18 +21,15 @@ type IsReverseProps = {
   reversedString: string;
 };
 
-type CharactersRandomizerProps = CharactersRandomizerBaseProps &
+export type CharactersRandomizerProps = CharactersRandomizerBaseProps &
   Partial<EligibleCharactersProps> &
   Partial<IsReverseProps>;
 
 export const CharactersRandomizer: {
   (props: CharactersRandomizerBaseProps): JSX.Element;
   (props: CharactersRandomizerBaseProps & EligibleCharactersProps): JSX.Element;
-  (
-    props: CharactersRandomizerBaseProps &
-      Partial<EligibleCharactersProps> &
-      IsReverseProps,
-  ): JSX.Element;
+  (props: CharactersRandomizerBaseProps & IsReverseProps): JSX.Element;
+  (props: CharactersRandomizerProps): JSX.Element;
 } = ({
   as: Element = 'p',
   className,

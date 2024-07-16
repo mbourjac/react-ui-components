@@ -1,12 +1,14 @@
 import type { AllRoutes } from './router/router.types';
 
-export type UiComponent = {
+export type UiComponent<T> = {
   pathname: AllRoutes;
   name: string;
   tags?: string[];
   description: string;
-  componentPreview: JSX.Element;
+  component: (props: T) => JSX.Element;
   code: string;
+  previewProps: T;
+  initialPlaygroundProps: T;
   props: UiComponentProp[];
 };
 
