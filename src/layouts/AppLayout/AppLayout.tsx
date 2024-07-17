@@ -1,5 +1,5 @@
 import { Link, Outlet } from '@tanstack/react-router';
-import { UI_COMPONENTS } from '../../App.constants';
+import { COMPONENTS_DATA } from '../../App.constants';
 
 export const AppLayout = () => {
   return (
@@ -11,7 +11,7 @@ export const AppLayout = () => {
       </main>
       <div className="p-4 pl-0">
         <nav className="flex h-[calc(100vh-2rem)] flex-col gap-4 overflow-auto rounded-2xl border border-off-black bg-primary p-4">
-          {UI_COMPONENTS.map(({ pathname, name, tags }) => (
+          {COMPONENTS_DATA.map(({ pathname, name, tags }) => (
             <Link
               key={name}
               to={pathname}

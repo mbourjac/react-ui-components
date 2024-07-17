@@ -1,7 +1,7 @@
-import type { UIComponentPropData } from '../../App.types';
+import type { PropData } from '../../App.types';
 
 type ComponentPropsProps = {
-  propsData: UIComponentPropData[];
+  propsData: PropData[];
 };
 
 export const ComponentProps = ({ propsData }: ComponentPropsProps) => {
