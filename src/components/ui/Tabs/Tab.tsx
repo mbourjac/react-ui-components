@@ -1,3 +1,4 @@
+import { useLocation } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
 import type { ArrayElement } from '../../../helpers/types';
 import { cn } from '../../../lib/tailwind';
@@ -19,6 +20,10 @@ export const Tab = ({
   index,
   setActiveTabIndex,
 }: TabProps) => {
+  const pathname = useLocation({
+    select: (location) => location.pathname,
+  });
+
   return (
     <button
       type="button"
@@ -35,7 +40,7 @@ export const Tab = ({
       {isActive ?
         <motion.span
           className="absolute bottom-[-1px] left-0 right-0 z-10 inline-block h-[1px] bg-primary"
-          layoutId="underline"
+          layoutId={`${pathname}-underline`}
         />
       : null}
     </button>
