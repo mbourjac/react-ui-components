@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAnimate } from 'framer-motion';
 import { HighlightedCode } from '../ui/HighlightedCode';
 import { IconButton } from '../ui/Icon/IconButton';
 import { Tabs } from '../ui/Tabs/Tabs';
@@ -14,11 +15,18 @@ export const ComponentPreview = <T,>({
   previewProps,
   code,
 }: ComponentPreviewProps<T>) => {
+  const [scope, animate] = useAnimate();
+
   const [componentKey, setComponentKey] = useState(0);
   const [codeHasBeenCopied, setCodeHasBeenCopied] = useState(false);
+  const [reloadIconRotation, setReloadIconRotation] = useState(0);
 
-  const handleReloadComponent = () => {
+  const handleReloadComponent = async () => {
     setComponentKey((prevComponentKey) => prevComponentKey + 1);
+    setReloadIconRotation(
+      (prevReloadIconNextRotation) => prevReloadIconNextRotation + 180,
+    );
+    await animate('svg', { rotate: reloadIconRotation + 180 });
   };
 
   const handleCopyToClipboard = async () => {
@@ -45,9 +53,10 @@ export const ComponentPreview = <T,>({
         <div className="relative rounded-b-2xl bg-off-black p-4">
           <div className="absolute right-4 top-2">
             <IconButton
+              ref={scope}
               kind="reload"
               screenReaderLabel="Reload component"
-              handleClick={handleReloadComponent}
+              handleClick={() => void handleReloadComponent()}
             />
           </div>
           <Component key={componentKey} {...previewProps} />

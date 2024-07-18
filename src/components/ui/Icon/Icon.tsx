@@ -1,7 +1,8 @@
 import type { SVGAttributes } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '../../../lib/tailwind';
 
-export type IconProps = (Omit<
+type IconBaseProps = (Omit<
   SVGAttributes<SVGSVGElement>,
   | 'xmlns'
   | 'viewBox'
@@ -49,12 +50,12 @@ const iconsMapping = {
   ),
 };
 
-export const Icon = ({
+const IconBase = ({
   kind,
   className,
   screenReaderLabel,
   ...attributes
-}: IconProps) => {
+}: IconBaseProps) => {
   return (
     <>
       <svg
@@ -75,3 +76,5 @@ export const Icon = ({
     </>
   );
 };
+
+export const Icon = motion(IconBase);
