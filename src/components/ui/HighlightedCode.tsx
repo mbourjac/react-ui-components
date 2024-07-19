@@ -14,8 +14,10 @@ export const HighlightedCode = ({
   const codeRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (codeRef.current) {
-      hljs.highlightElement(codeRef.current);
+    const code = codeRef.current;
+
+    if (code && !code.dataset.highlighted) {
+      hljs.highlightElement(code);
     }
   }, [code]);
 
