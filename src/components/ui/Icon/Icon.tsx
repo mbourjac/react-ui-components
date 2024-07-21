@@ -1,4 +1,4 @@
-import type { SVGAttributes } from 'react';
+import { forwardRef, type SVGAttributes } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '../../../lib/tailwind';
 
@@ -50,31 +50,29 @@ const iconsMapping = {
   ),
 };
 
-const IconBase = ({
-  kind,
-  className,
-  screenReaderLabel,
-  ...attributes
-}: IconBaseProps) => {
-  return (
-    <>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className={cn('size-5', className)}
-        aria-hidden={
-          screenReaderLabel ? !!screenReaderLabel : attributes['aria-hidden']
-        }
-        {...attributes}
-      >
-        {iconsMapping[kind]}
-      </svg>
-      {screenReaderLabel && (
-        <span className="sr-only">{screenReaderLabel}</span>
-      )}
-    </>
-  );
-};
+export const IconBase = forwardRef<SVGSVGElement, IconBaseProps>(
+  ({ kind, className, screenReaderLabel, ...attributes }, ref) => {
+    return (
+      <>
+        <svg
+          ref={ref}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className={cn('size-5', className)}
+          aria-hidden={
+            screenReaderLabel ? !!screenReaderLabel : attributes['aria-hidden']
+          }
+          {...attributes}
+        >
+          {iconsMapping[kind]}
+        </svg>
+        {screenReaderLabel && (
+          <span className="sr-only">{screenReaderLabel}</span>
+        )}
+      </>
+    );
+  },
+);
 
 export const Icon = motion(IconBase);
