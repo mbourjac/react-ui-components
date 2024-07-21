@@ -1,24 +1,19 @@
+import { ReactNode } from '@tanstack/react-router';
 import type { ComponentData } from '../../App.types';
 import { ComponentPlayground } from './ComponentPlayground/ComponentPlayground';
 import { ComponentPreview } from './ComponentPreview';
 import { ComponentProps } from './ComponentProps';
 
-type ComponentPageProps<T> = {
-  componentData: ComponentData<T>;
+type ComponentPageProps = {
+  componentData: ComponentData;
+  children: ReactNode;
 };
 
-export const ComponentPage = <T extends Record<string, unknown>>({
+export const ComponentPage = ({
   componentData,
-}: ComponentPageProps<T>) => {
-  const {
-    name,
-    description,
-    code,
-    propsData,
-    component,
-    previewProps,
-    initialPlaygroundProps,
-  } = componentData;
+  children,
+}: ComponentPageProps) => {
+  const { name, description, code, propsData } = componentData;
 
   return (
     <>
@@ -30,16 +25,9 @@ export const ComponentPage = <T extends Record<string, unknown>>({
           {description}
         </p>
       </div>
-      <ComponentPreview
-        component={component}
-        previewProps={previewProps}
-        code={code}
-      />
+      <ComponentPreview code={code}>{children}</ComponentPreview>
       <ComponentProps propsData={propsData} />
-      <ComponentPlayground
-        component={component}
-        initialPlaygroundProps={initialPlaygroundProps}
-      />
+      <ComponentPlayground>{children}</ComponentPlayground>
     </>
   );
 };

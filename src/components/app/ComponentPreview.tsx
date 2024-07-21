@@ -1,20 +1,24 @@
-import { useEffect, useState } from 'react';
+import {
+  cloneElement,
+  isValidElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
 import { useAnimate } from 'framer-motion';
 import { HighlightedCode } from '../ui/HighlightedCode';
 import { IconButton } from '../ui/Icon/IconButton';
 import { Tabs } from '../ui/Tabs/Tabs';
 
-type ComponentPreviewProps<T> = {
-  component: (props: T) => JSX.Element;
-  previewProps: T;
+type ComponentPreviewProps = {
+  children: ReactNode;
   code: string;
 };
 
-export const ComponentPreview = <T,>({
-  component: Component,
-  previewProps,
+export const ComponentPreview = <T extends Record<string, unknown>>({
+  children,
   code,
-}: ComponentPreviewProps<T>) => {
+}: ComponentPreviewProps) => {
   const [scope, animate] = useAnimate();
 
   const [componentKey, setComponentKey] = useState(0);
@@ -59,7 +63,8 @@ export const ComponentPreview = <T,>({
               handleClick={() => void handleReloadComponent()}
             />
           </div>
-          <Component key={componentKey} {...previewProps} />
+          {isValidElement<T>(children) &&
+            cloneElement(children, { ...children.props, key: componentKey })}
         </div>
       ),
     },

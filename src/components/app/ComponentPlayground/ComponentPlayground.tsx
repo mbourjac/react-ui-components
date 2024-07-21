@@ -1,20 +1,22 @@
-import { type ChangeEvent, useState } from 'react';
+import {
+  type ChangeEvent,
+  cloneElement,
+  isValidElement,
+  useState,
+} from 'react';
 import { ComponentPlaygroundCheckbox } from './ComponentPlaygroundCheckbox';
 import { ComponentPlaygroundInput } from './ComponentPlaygroundInput';
+import { ReactNode } from '@tanstack/react-router';
 
-export type ComponentPlaygroundProps<T> = {
-  component: (props: T) => JSX.Element;
-  initialPlaygroundProps: T;
+export type ComponentPlaygroundProps = {
+  children: ReactNode;
 };
 
 export const ComponentPlayground = <T extends Record<string, unknown>>({
-  component: Component,
-  initialPlaygroundProps,
-}: ComponentPlaygroundProps<T>) => {
+  children,
+}: ComponentPlaygroundProps) => {
   const [componentKey, setComponentKey] = useState(0);
-  const [componentProps, setComponentProps] = useState<T>(
-    initialPlaygroundProps,
-  );
+  const [componentProps, setComponentProps] = useState<T>(children.props);
 
   const componentPropsEntries = Object.entries(componentProps);
 
@@ -33,7 +35,8 @@ export const ComponentPlayground = <T extends Record<string, unknown>>({
       <h2 className="border-b border-primary px-4 py-2">Playground</h2>
       <div className="flex flex-col gap-4 p-4">
         <div className="flex flex-col rounded-b-2xl bg-off-black">
-          <Component key={componentKey} {...componentProps} />
+          {isValidElement<T>(children) &&
+            cloneElement(children, { ...componentProps, key: componentKey })}
         </div>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-3">
