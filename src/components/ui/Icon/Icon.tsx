@@ -75,4 +75,6 @@ export const IconBase = forwardRef<SVGSVGElement, IconBaseProps>(
   },
 );
 
+IconBase.displayName = 'IconBase';
+
 export const Icon = motion(IconBase);

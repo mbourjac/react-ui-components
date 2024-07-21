@@ -1,4 +1,4 @@
-import { ReactNode } from '@tanstack/react-router';
+import type { ReactNode } from 'react';
 import type { ComponentData } from '../../App.types';
 import { ComponentPlayground } from './ComponentPlayground/ComponentPlayground';
 import { ComponentPreview } from './ComponentPreview';

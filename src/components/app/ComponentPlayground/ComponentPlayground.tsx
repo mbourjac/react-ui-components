@@ -2,11 +2,11 @@ import {
   type ChangeEvent,
   cloneElement,
   isValidElement,
+  type ReactNode,
   useState,
 } from 'react';
 import { ComponentPlaygroundCheckbox } from './ComponentPlaygroundCheckbox';
 import { ComponentPlaygroundInput } from './ComponentPlaygroundInput';
-import { ReactNode } from '@tanstack/react-router';
 
 export type ComponentPlaygroundProps = {
   children: ReactNode;
