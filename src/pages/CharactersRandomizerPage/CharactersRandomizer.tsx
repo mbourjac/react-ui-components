@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { shuffleArray } from '../../helpers/arrays';
 import { cn } from '../../lib/tailwind';
+import { shuffleArray } from '../../utils/arrays';
 
 type CharactersRandomizerBaseProps = {
   as?: keyof JSX.IntrinsicElements;

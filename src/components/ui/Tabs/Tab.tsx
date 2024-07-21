@@ -1,7 +1,7 @@
 import { useLocation } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import type { ArrayElement } from '../../../helpers/types';
 import { cn } from '../../../lib/tailwind';
+import type { ArrayElement } from '../../../utils/types';
 import type { TabsProps } from './Tabs';
 
 export type TabProps = Omit<ArrayElement<TabsProps['tabs']>, 'content'> & {
