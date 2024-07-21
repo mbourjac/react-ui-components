@@ -8,7 +8,7 @@ export const ComponentProps = ({ propsData }: ComponentPropsProps) => {
   return (
     <div className="text-primary">
       <div className="overflow-x-auto rounded-2xl text-primary">
-        <table>
+        <table className="w-full">
           <thead className="rounded-t-2xl border-b border-primary bg-off-black">
             <tr>
               <th className="px-4 py-2 text-left font-normal">Prop</th>
@@ -26,9 +26,12 @@ export const ComponentProps = ({ propsData }: ComponentPropsProps) => {
                 conditionallyRequiredBy,
                 defaultValue,
               }) => (
-                <tr key={name} className="border-b border-primary/20">
-                  <td className="px-4 py-3 align-text-top">{name}</td>
-                  <td className="px-4 py-3 align-text-top">
+                <tr
+                  key={name}
+                  className="relative after:absolute after:bottom-0 after:left-0 after:mx-4 after:block after:h-[1px] after:w-[calc(100%-2rem)] after:bg-primary/25 last:after:h-0"
+                >
+                  <td className="p-4 align-text-top">{name}</td>
+                  <td className="p-4 align-text-top">
                     {type}
                     {required && ' [required]'}
                     {conditionallyRequiredBy &&
@@ -36,7 +39,7 @@ export const ComponentProps = ({ propsData }: ComponentPropsProps) => {
                     {defaultValue !== undefined &&
                       ` [default: ${defaultValue}]`}
                   </td>
-                  <td className="px-4 py-2 align-text-top">{description}</td>
+                  <td className="p-4 align-text-top">{description}</td>
                 </tr>
               ),
             )}
