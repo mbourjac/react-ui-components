@@ -18,16 +18,18 @@ export const AppLayout = () => {
               className="group flex flex-col border-b border-off-black text-left transition-all"
             >
               <div className="flex flex-col gap-1">
-                <ul className="flex gap-4">
-                  {tags.map((tag) => (
-                    <li
-                      key={tag}
-                      className="rounded-full border border-off-black px-3 py-1 text-sm"
-                    >
-                      {tag}
-                    </li>
-                  ))}
-                </ul>
+                {tags && (
+                  <ul className="flex gap-4">
+                    {tags.map((tag) => (
+                      <li
+                        key={tag}
+                        className="rounded-full border border-off-black px-3 py-1 text-sm"
+                      >
+                        {tag}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <h2 className="text-lg uppercase">{name}</h2>
               </div>
             </Link>
