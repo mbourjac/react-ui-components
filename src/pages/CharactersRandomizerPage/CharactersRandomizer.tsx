@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { cn } from '../../lib/tailwind';
 import { shuffleArray } from '../../utils/arrays';
+import type { MutuallyExclusive } from '../../utils/types';
 
 type CharactersRandomizerBaseProps = {
   as?: keyof JSX.IntrinsicElements;
@@ -8,12 +9,16 @@ type CharactersRandomizerBaseProps = {
   referenceString: string;
   delay?: number;
   charactersCount?: number;
-  isConcurrent?: boolean;
 };
 
 type EligibleCharactersProps = {
   eligibleCharacters: string | string[];
   useDefaultCharacters?: boolean;
+};
+
+type IsConcurrentProps = {
+  isConcurrent: boolean;
+  keepSpaces?: boolean;
 };
 
 type IsReverseProps = {
@@ -22,15 +27,11 @@ type IsReverseProps = {
 };
 
 export type CharactersRandomizerProps = CharactersRandomizerBaseProps &
-  Partial<EligibleCharactersProps> &
-  Partial<IsReverseProps>;
+  MutuallyExclusive<EligibleCharactersProps> &
+  MutuallyExclusive<IsConcurrentProps> &
+  MutuallyExclusive<IsReverseProps>;
 
-export const CharactersRandomizer: {
-  (props: CharactersRandomizerBaseProps): JSX.Element;
-  (props: CharactersRandomizerBaseProps & EligibleCharactersProps): JSX.Element;
-  (props: CharactersRandomizerBaseProps & IsReverseProps): JSX.Element;
-  (props: CharactersRandomizerProps): JSX.Element;
-} = ({
+export const CharactersRandomizer = ({
   as: Element = 'p',
   className,
   referenceString,
@@ -39,6 +40,7 @@ export const CharactersRandomizer: {
   useDefaultCharacters,
   charactersCount = 3,
   isConcurrent,
+  keepSpaces,
   isReverse,
   reversedString,
 }: CharactersRandomizerProps) => {
@@ -86,14 +88,18 @@ export const CharactersRandomizer: {
   const getInitialDisplayedCharacters = useCallback(
     () =>
       isConcurrent ?
-        referenceCharacters.map(
-          () =>
-            getRandomCharacters({ eligibleCharacters, charactersCount })[0]!,
+        referenceCharacters.map((char) =>
+          keepSpaces ?
+            char === ' ' ?
+              ' '
+            : getRandomCharacters({ eligibleCharacters, charactersCount })[0]!
+          : getRandomCharacters({ eligibleCharacters, charactersCount })[0]!,
         )
       : [],
     [
       referenceCharacters,
       isConcurrent,
+      keepSpaces,
       getRandomCharacters,
       eligibleCharacters,
       charactersCount,

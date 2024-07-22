@@ -8,7 +8,7 @@ export const CharactersRandomizerPage = () => {
       <CharactersRandomizer
         referenceString="Lorem ipsum dolor sit amet."
         isConcurrent
-        delay={65}
+        keepSpaces
         className="mx-auto text-balance break-words py-16 text-4xl font-semibold uppercase"
       />
     </ComponentPage>
