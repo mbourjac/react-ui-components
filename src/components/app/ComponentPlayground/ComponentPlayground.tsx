@@ -1,30 +1,32 @@
-import {
-  type ChangeEvent,
-  cloneElement,
-  isValidElement,
-  type ReactNode,
-  useState,
-} from 'react';
+import { type ChangeEvent, useMemo, useState } from 'react';
+import type { ComponentData } from '../../../App.types';
 import { ComponentPlaygroundCheckbox } from './ComponentPlaygroundCheckbox';
 import { ComponentPlaygroundInput } from './ComponentPlaygroundInput';
 
-export type ComponentPlaygroundProps = {
-  children: ReactNode;
-};
+export type ComponentPlaygroundProps<T extends Record<string, unknown>> = Pick<
+  Required<ComponentData<T>>,
+  'component' | 'playgroundProps'
+>;
 
 export const ComponentPlayground = <T extends Record<string, unknown>>({
-  children,
-}: ComponentPlaygroundProps) => {
+  component: Component,
+  playgroundProps,
+}: ComponentPlaygroundProps<T>) => {
   const [componentKey, setComponentKey] = useState(0);
-  const [componentProps, setComponentProps] = useState<T>(children.props);
+  const [controlledProps, setControlledProps] = useState<T>({
+    ...playgroundProps.controls,
+  });
 
-  const componentPropsEntries = Object.entries(componentProps);
+  const controlledPropsEntries = useMemo(
+    () => Object.entries(controlledProps),
+    [controlledProps],
+  );
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
 
-    setComponentProps((prevComponentProps) => ({
-      ...prevComponentProps,
+    setControlledProps((prevControlledProps) => ({
+      ...prevControlledProps,
       [name]: type === 'checkbox' ? checked : value,
     }));
     setComponentKey((prevComponentKey) => prevComponentKey + 1);
@@ -35,16 +37,16 @@ export const ComponentPlayground = <T extends Record<string, unknown>>({
       <h2 className="border-b border-primary px-4 py-2">Playground</h2>
       <div className="flex flex-col gap-4 p-4">
         <div className="flex flex-col rounded-b-2xl bg-off-black">
-          {isValidElement<T>(children) &&
-            cloneElement(children, { ...componentProps, key: componentKey })}
+          <Component
+            key={componentKey}
+            {...controlledProps}
+            {...playgroundProps.display}
+          />
         </div>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-3">
-            {componentPropsEntries.map(([key, value]) => {
-              if (
-                (typeof value !== 'string' && typeof value !== 'number') ||
-                key === 'className'
-              )
+            {controlledPropsEntries.map(([key, value]) => {
+              if (typeof value !== 'string' && typeof value !== 'number')
                 return null;
 
               return (
@@ -58,7 +60,7 @@ export const ComponentPlayground = <T extends Record<string, unknown>>({
             })}
           </div>
           <div className="flex flex-wrap gap-2">
-            {componentPropsEntries.map(([key, value]) => {
+            {controlledPropsEntries.map(([key, value]) => {
               if (typeof value !== 'boolean') return null;
 
               return (

@@ -4,16 +4,17 @@ import { ComponentPlayground } from './ComponentPlayground/ComponentPlayground';
 import { ComponentPreview } from './ComponentPreview';
 import { ComponentProps } from './ComponentProps';
 
-type ComponentPageProps = {
-  componentData: ComponentData;
+type ComponentPageProps<T extends Record<string, unknown>> = {
+  componentData: ComponentData<T>;
   children: ReactNode;
 };
 
-export const ComponentPage = ({
+export const ComponentPage = <T extends Record<string, unknown>>({
   componentData,
   children,
-}: ComponentPageProps) => {
-  const { name, description, code, propsData } = componentData;
+}: ComponentPageProps<T>) => {
+  const { name, description, code, propsData, component, playgroundProps } =
+    componentData;
 
   return (
     <>
@@ -27,7 +28,12 @@ export const ComponentPage = ({
       </div>
       <ComponentPreview code={code}>{children}</ComponentPreview>
       <ComponentProps propsData={propsData} />
-      <ComponentPlayground>{children}</ComponentPlayground>
+      {component && playgroundProps && (
+        <ComponentPlayground
+          component={component}
+          playgroundProps={playgroundProps}
+        />
+      )}
     </>
   );
 };

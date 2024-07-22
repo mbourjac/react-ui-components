@@ -1,12 +1,17 @@
 import type { ComponentData } from '../../App.types';
+import {
+  CharactersRandomizer,
+  type CharactersRandomizerProps,
+} from './CharactersRandomizer';
 
-export const CHARACTERS_RANDOMIZER_DATA: ComponentData = {
-  pathname: '/characters-randomizer',
-  name: 'Characters Randomizer',
-  tags: ['text', 'animation', 'random'],
-  description:
-    'Generates and displays a sequence of randomized characters, gradually transforming into a target string over time.',
-  code: `
+export const CHARACTERS_RANDOMIZER_DATA: ComponentData<CharactersRandomizerProps> =
+  {
+    pathname: '/characters-randomizer',
+    name: 'Characters Randomizer',
+    tags: ['text', 'animation', 'random'],
+    description:
+      'Generates and displays a sequence of randomized characters, gradually transforming into a target string over time.',
+    code: `
 import { useCallback, useEffect, useState } from 'react';
 import { shuffleArray } from '@/helpers/arrays';
 import { cn } from '@/lib/tailwind';
@@ -197,75 +202,88 @@ export const CharactersRandomizer: {
   );
 };
   `,
-  propsData: [
-    {
-      name: 'as',
-      type: 'keyof JSX.IntrinsicElements',
-      description: 'Specifies the HTML element to render.',
-      required: false,
-      defaultValue: "'p'",
+    propsData: [
+      {
+        name: 'as',
+        type: 'keyof JSX.IntrinsicElements',
+        description: 'Specifies the HTML element to render.',
+        required: false,
+        defaultValue: "'p'",
+      },
+      {
+        name: 'className',
+        type: 'string',
+        description: 'Applies additional CSS classes.',
+        required: false,
+      },
+      {
+        name: 'referenceString',
+        type: 'string',
+        description:
+          'The target string that the displayed characters will eventually match.',
+        required: true,
+      },
+      {
+        name: 'delay',
+        type: 'number',
+        description: 'The delay in milliseconds between updates.',
+        required: false,
+        defaultValue: '65',
+      },
+      {
+        name: 'charactersCount',
+        type: 'number',
+        description:
+          'The number of random characters to select from the eligible set.',
+        required: false,
+        defaultValue: '3',
+      },
+      {
+        name: 'isConcurrent',
+        type: 'boolean',
+        description:
+          'Determines whether the randomization happens concurrently for all characters.',
+        required: false,
+      },
+      {
+        name: 'eligibleCharacters',
+        type: 'string | string[]',
+        description: 'A list of characters to use for randomization.',
+        required: false,
+      },
+      {
+        name: 'useDefaultCharacters',
+        type: 'boolean',
+        description:
+          'Indicates whether to include the default set of characters in the eligible set.',
+        required: false,
+        conditionallyRequiredBy: 'eligibleCharacters',
+      },
+      {
+        name: 'isReverse',
+        type: 'boolean',
+        description: 'Indicates whether the randomization should reverse.',
+        required: false,
+      },
+      {
+        name: 'reversedString',
+        type: 'string',
+        description: 'The string to display when reversing.',
+        required: false,
+        conditionallyRequiredBy: 'isReverse',
+      },
+    ],
+    component: CharactersRandomizer,
+    playgroundProps: {
+      display: {
+        className:
+          'mx-auto text-balance break-words py-16 text-4xl font-semibold uppercase',
+        keepSpaces: true,
+      },
+      controls: {
+        referenceString: 'Lorem ipsum dolor sit amet.',
+        delay: 65,
+        isConcurrent: true,
+      },
     },
-    {
-      name: 'className',
-      type: 'string',
-      description: 'Applies additional CSS classes.',
-      required: false,
-    },
-    {
-      name: 'referenceString',
-      type: 'string',
-      description:
-        'The target string that the displayed characters will eventually match.',
-      required: true,
-    },
-    {
-      name: 'delay',
-      type: 'number',
-      description: 'The delay in milliseconds between updates.',
-      required: false,
-      defaultValue: '65',
-    },
-    {
-      name: 'charactersCount',
-      type: 'number',
-      description:
-        'The number of random characters to select from the eligible set.',
-      required: false,
-      defaultValue: '3',
-    },
-    {
-      name: 'isConcurrent',
-      type: 'boolean',
-      description:
-        'Determines whether the randomization happens concurrently for all characters.',
-      required: false,
-    },
-    {
-      name: 'eligibleCharacters',
-      type: 'string | string[]',
-      description: 'A list of characters to use for randomization.',
-      required: false,
-    },
-    {
-      name: 'useDefaultCharacters',
-      type: 'boolean',
-      description:
-        'Indicates whether to include the default set of characters in the eligible set.',
-      required: false,
-      conditionallyRequiredBy: 'eligibleCharacters',
-    },
-    {
-      name: 'isReverse',
-      type: 'boolean',
-      description: 'Indicates whether the randomization should reverse.',
-      required: false,
-    },
-    {
-      name: 'reversedString',
-      type: 'string',
-      description: 'The string to display when reversing.',
-      required: false,
-      conditionallyRequiredBy: 'isReverse',
-    },
-  ],
-};
+  };

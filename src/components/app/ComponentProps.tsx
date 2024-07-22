@@ -1,10 +1,12 @@
 import type { PropData } from '../../App.types';
 
-type ComponentPropsProps = {
-  propsData: PropData[];
+type ComponentPropsProps<T extends Record<string, unknown>> = {
+  propsData: PropData<T>[];
 };
 
-export const ComponentProps = ({ propsData }: ComponentPropsProps) => {
+export const ComponentProps = <T extends Record<string, unknown>>({
+  propsData,
+}: ComponentPropsProps<T>) => {
   return (
     <div className="text-primary">
       <div className="overflow-x-auto rounded-2xl text-primary">
@@ -27,10 +29,10 @@ export const ComponentProps = ({ propsData }: ComponentPropsProps) => {
                 defaultValue,
               }) => (
                 <tr
-                  key={name}
+                  key={name.toString()}
                   className="relative after:absolute after:bottom-0 after:left-0 after:mx-4 after:block after:h-[1px] after:w-[calc(100%-2rem)] after:bg-primary/25 last:after:h-0"
                 >
-                  <td className="p-4 align-text-top">{name}</td>
+                  <td className="p-4 align-text-top">{name.toString()}</td>
                   <td className="p-4 align-text-top">
                     {type}
                     {required && ' [required]'}
