@@ -33,7 +33,7 @@ export const ComponentPage = <T extends Record<string, unknown>>({
         previewProps={previewProps}
         code={code}
       />
-      <ComponentProps propsData={propsData} />
+      {propsData.length > 0 && <ComponentProps propsData={propsData} />}
       {playgroundProps && (
         <ComponentPlayground
           component={component}
