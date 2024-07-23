@@ -1,24 +1,20 @@
-import {
-  cloneElement,
-  isValidElement,
-  type ReactNode,
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 import { useAnimate } from 'framer-motion';
 import { HighlightedCode } from '../ui/HighlightedCode';
 import { IconButton } from '../ui/Icon/IconButton';
 import { Tabs } from '../ui/Tabs/Tabs';
 
-type ComponentPreviewProps = {
-  children: ReactNode;
+type ComponentPreviewProps<T extends Record<string, unknown>> = {
+  component: (props: T) => JSX.Element;
+  previewProps: T;
   code: string;
 };
 
 export const ComponentPreview = <T extends Record<string, unknown>>({
-  children,
+  component: Component,
+  previewProps,
   code,
-}: ComponentPreviewProps) => {
+}: ComponentPreviewProps<T>) => {
   const [scope, animate] = useAnimate();
 
   const [componentKey, setComponentKey] = useState(0);
@@ -54,8 +50,8 @@ export const ComponentPreview = <T extends Record<string, unknown>>({
       id: 'preview-tab',
       controls: 'preview-panel',
       content: (
-        <div className="relative rounded-b-2xl bg-off-black p-4">
-          <div className="absolute right-4 top-2">
+        <div className="relative flex min-h-96 items-center justify-center rounded-b-2xl bg-off-black">
+          <div className="absolute right-4 top-2 z-10">
             <IconButton
               ref={scope}
               kind="reload"
@@ -63,8 +59,7 @@ export const ComponentPreview = <T extends Record<string, unknown>>({
               handleClick={() => void handleReloadComponent()}
             />
           </div>
-          {isValidElement<T>(children) &&
-            cloneElement(children, { ...children.props, key: componentKey })}
+          <Component key={componentKey} {...previewProps} />
         </div>
       ),
     },
@@ -82,7 +77,7 @@ export const ComponentPreview = <T extends Record<string, unknown>>({
           />
           <HighlightedCode
             code={code}
-            codeClassName="h-[40vh] rounded-b-2xl bg-off-black !p-4 !pt-8"
+            codeClassName="h-96 rounded-b-2xl bg-off-black !p-4 !pt-8"
           />
         </div>
       ),

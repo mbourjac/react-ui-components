@@ -1,20 +1,22 @@
-import type { ReactNode } from 'react';
-import type { ComponentData } from '../../App.types';
+import type { ComponentData, PlaygroundProps } from '../../App.types';
 import { ComponentPlayground } from './ComponentPlayground/ComponentPlayground';
 import { ComponentPreview } from './ComponentPreview';
 import { ComponentProps } from './ComponentProps';
 
 type ComponentPageProps<T extends Record<string, unknown>> = {
   componentData: ComponentData<T>;
-  children: ReactNode;
+  component: (props: T) => JSX.Element;
+  previewProps: T;
+  playgroundProps?: PlaygroundProps<T>;
 };
 
 export const ComponentPage = <T extends Record<string, unknown>>({
   componentData,
-  children,
+  component,
+  previewProps,
+  playgroundProps,
 }: ComponentPageProps<T>) => {
-  const { name, description, code, propsData, component, playgroundProps } =
-    componentData;
+  const { name, description, code, propsData } = componentData;
 
   return (
     <>
@@ -26,9 +28,13 @@ export const ComponentPage = <T extends Record<string, unknown>>({
           {description}
         </p>
       </div>
-      <ComponentPreview code={code}>{children}</ComponentPreview>
+      <ComponentPreview
+        component={component}
+        previewProps={previewProps}
+        code={code}
+      />
       <ComponentProps propsData={propsData} />
-      {component && playgroundProps && (
+      {playgroundProps && (
         <ComponentPlayground
           component={component}
           playgroundProps={playgroundProps}

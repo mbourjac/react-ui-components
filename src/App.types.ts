@@ -7,11 +7,6 @@ export type ComponentData<T extends Record<string, unknown>> = {
   description: string;
   code: string;
   propsData: PropData<T>[];
-  component?: (props: T) => JSX.Element;
-  playgroundProps?: {
-    display: Partial<T>;
-    controls: T;
-  };
 };
 
 export type PropData<T extends Record<string, unknown>> = {
@@ -21,4 +16,9 @@ export type PropData<T extends Record<string, unknown>> = {
   required: boolean;
   conditionallyRequiredBy?: string;
   defaultValue?: string;
+};
+
+export type PlaygroundProps<T extends Record<string, unknown>> = {
+  props: T;
+  controlledPropsKeys: (keyof T)[];
 };

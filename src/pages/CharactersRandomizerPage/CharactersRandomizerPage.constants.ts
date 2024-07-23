@@ -1,8 +1,5 @@
 import type { ComponentData } from '../../App.types';
-import {
-  CharactersRandomizer,
-  type CharactersRandomizerProps,
-} from './CharactersRandomizer';
+import type { CharactersRandomizerProps } from './CharactersRandomizer';
 
 export const CHARACTERS_RANDOMIZER_DATA: ComponentData<CharactersRandomizerProps> =
   {
@@ -273,17 +270,4 @@ export const CharactersRandomizer: {
         conditionallyRequiredBy: 'isReverse',
       },
     ],
-    component: CharactersRandomizer,
-    playgroundProps: {
-      display: {
-        className:
-          'mx-auto text-balance break-words py-16 text-4xl font-semibold uppercase',
-        keepSpaces: true,
-      },
-      controls: {
-        referenceString: 'Lorem ipsum dolor sit amet.',
-        delay: 65,
-        isConcurrent: true,
-      },
-    },
   };
