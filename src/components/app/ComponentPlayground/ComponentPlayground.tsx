@@ -30,11 +30,6 @@ export const ComponentPlayground = <T extends Record<string, unknown>>({
     initialControlledProps,
   );
 
-  const controlledPropsEntries = useMemo(
-    () => Object.entries(controlledProps),
-    [controlledProps],
-  );
-
   const componentProps = useMemo(
     () => ({
       ...playgroundProps.props,
@@ -53,6 +48,50 @@ export const ComponentPlayground = <T extends Record<string, unknown>>({
     setComponentKey((prevComponentKey) => prevComponentKey + 1);
   };
 
+  const controlledPropsEntries = useMemo(
+    () => Object.entries(controlledProps),
+    [controlledProps],
+  );
+
+  const inputControls = useMemo(
+    () =>
+      controlledPropsEntries
+        .map(([key, value]) => {
+          if (typeof value !== 'string' && typeof value !== 'number')
+            return null;
+
+          return (
+            <ComponentPlaygroundInput
+              key={key}
+              label={key}
+              value={value}
+              onChange={handleInputChange}
+            />
+          );
+        })
+        .filter(Boolean),
+    [controlledPropsEntries],
+  );
+
+  const checkboxControls = useMemo(
+    () =>
+      controlledPropsEntries
+        .map(([key, value]) => {
+          if (typeof value !== 'boolean') return null;
+
+          return (
+            <ComponentPlaygroundCheckbox
+              key={key}
+              label={key}
+              isChecked={value}
+              onChange={handleInputChange}
+            />
+          );
+        })
+        .filter(Boolean),
+    [controlledPropsEntries],
+  );
+
   return (
     <div className="text-pretty rounded-2xl bg-off-black">
       <h2 className="border-b border-primary px-4 py-2">Playground</h2>
@@ -61,35 +100,12 @@ export const ComponentPlayground = <T extends Record<string, unknown>>({
           <Component key={componentKey} {...componentProps} />
         </div>
         <div className="flex flex-col gap-6 p-4">
-          <div className="flex flex-col gap-3">
-            {controlledPropsEntries.map(([key, value]) => {
-              if (typeof value !== 'string' && typeof value !== 'number')
-                return null;
-
-              return (
-                <ComponentPlaygroundInput
-                  key={key}
-                  label={key}
-                  value={value}
-                  onChange={handleInputChange}
-                />
-              );
-            })}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {controlledPropsEntries.map(([key, value]) => {
-              if (typeof value !== 'boolean') return null;
-
-              return (
-                <ComponentPlaygroundCheckbox
-                  key={key}
-                  label={key}
-                  isChecked={value}
-                  onChange={handleInputChange}
-                />
-              );
-            })}
-          </div>
+          {inputControls.length > 0 && (
+            <div className="flex flex-col gap-3">{inputControls}</div>
+          )}
+          {checkboxControls.length > 0 && (
+            <div className="flex flex-wrap gap-2">{checkboxControls}</div>
+          )}
         </div>
       </div>
     </div>
