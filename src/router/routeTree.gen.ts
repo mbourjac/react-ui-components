@@ -14,6 +14,7 @@ import { Route as rootRoute } from './../routes/__root'
 import { Route as LayoutImport } from './../routes/_layout'
 import { Route as LayoutIndexImport } from './../routes/_layout/index'
 import { Route as LayoutCharactersRandomizerImport } from './../routes/_layout/characters-randomizer'
+import { Route as LayoutBackdropBrushImport } from './../routes/_layout/backdrop-brush'
 
 // Create/Update Routes
 
@@ -34,19 +35,40 @@ const LayoutCharactersRandomizerRoute = LayoutCharactersRandomizerImport.update(
   } as any,
 )
 
+const LayoutBackdropBrushRoute = LayoutBackdropBrushImport.update({
+  path: '/backdrop-brush',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
+    '/_layout/backdrop-brush': {
+      id: '/_layout/backdrop-brush'
+      path: '/backdrop-brush'
+      fullPath: '/backdrop-brush'
+      preLoaderRoute: typeof LayoutBackdropBrushImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/characters-randomizer': {
+      id: '/_layout/characters-randomizer'
+      path: '/characters-randomizer'
+      fullPath: '/characters-randomizer'
       preLoaderRoute: typeof LayoutCharactersRandomizerImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/': {
+      id: '/_layout/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
@@ -55,8 +77,45 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
-  LayoutRoute.addChildren([LayoutCharactersRandomizerRoute, LayoutIndexRoute]),
-])
+export const routeTree = rootRoute.addChildren({
+  LayoutRoute: LayoutRoute.addChildren({
+    LayoutBackdropBrushRoute,
+    LayoutCharactersRandomizerRoute,
+    LayoutIndexRoute,
+  }),
+})
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.tsx",
+      "children": [
+        "/_layout"
+      ]
+    },
+    "/_layout": {
+      "filePath": "_layout.tsx",
+      "children": [
+        "/_layout/backdrop-brush",
+        "/_layout/characters-randomizer",
+        "/_layout/"
+      ]
+    },
+    "/_layout/backdrop-brush": {
+      "filePath": "_layout/backdrop-brush.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/characters-randomizer": {
+      "filePath": "_layout/characters-randomizer.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/": {
+      "filePath": "_layout/index.tsx",
+      "parent": "/_layout"
+    }
+  }
+}
+ROUTE_MANIFEST_END */

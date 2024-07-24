@@ -96,10 +96,11 @@ export const ComponentPlayground = <T extends Record<string, unknown>>({
     <div className="text-pretty rounded-2xl bg-off-black">
       <h2 className="border-b border-primary px-4 py-2">Playground</h2>
       <div className="flex flex-col">
-        <div className="flex min-h-96 flex-col items-center justify-center rounded-b-2xl bg-off-black">
+        <div className="relative flex min-h-96 flex-col items-center justify-center rounded-b-2xl bg-off-black">
           <Component key={componentKey} {...componentProps} />
+          <div className="absolute bottom-0 h-4 w-full rounded-t-2xl bg-off-black"></div>
         </div>
-        <div className="flex flex-col gap-6 p-4">
+        <div className="flex flex-col gap-6 p-4 pt-0">
           {inputControls.length > 0 && (
             <div className="flex flex-col gap-3">{inputControls}</div>
           )}
