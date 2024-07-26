@@ -1,9 +1,11 @@
+import type { z } from 'zod';
+import type { searchComponentsSchema } from './App.schemas';
 import type { AllRoutes } from './router/router.types';
 
 export type ComponentData<T extends Record<string, unknown>> = {
   pathname: AllRoutes;
   name: string;
-  tags?: string[];
+  tags: string[];
   description: string;
   code: string;
   propsData: PropData<T>[];
@@ -22,3 +24,5 @@ export type PlaygroundProps<T extends Record<string, unknown>> = {
   props: T;
   controlledPropsKeys: (keyof T)[];
 };
+
+export type SearchComponents = z.infer<typeof searchComponentsSchema>;
