@@ -1,17 +1,34 @@
 import type { FormEvent } from 'react';
-import { Link } from '@tanstack/react-router';
+import { Link, useLocation, useNavigate } from '@tanstack/react-router';
 import type { SearchComponents } from '../../App.types';
 import { Icon } from '../../components/ui/Icon/Icon';
 
-type AppControlsProps = {
-  filterParam: SearchComponents['filter'];
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
-};
+type AppControlsProps = SearchComponents;
 
 export const AppControls = ({
-  filterParam,
-  handleSubmit,
+  filter: filterParam,
+  search: searchParam,
 }: AppControlsProps) => {
+  const location = useLocation();
+  const navigate = useNavigate({ from: location.pathname });
+
+  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const search = formData.get('search');
+
+    if (!search && !searchParam) return;
+
+    void navigate({
+      to: '.',
+      search: (prev) => ({
+        ...prev,
+        search: search ? String(search) : undefined,
+      }),
+    });
+  };
+
   return (
     <div className="flex h-11 gap-2">
       <div className="flex grow items-center gap-2 rounded-full border border-off-black px-4">
@@ -27,7 +44,7 @@ export const AppControls = ({
             <Icon kind="x-mark" aria-hidden="true" />
           </Link>
         )}
-        <form onSubmit={handleSubmit} className="w-full">
+        <form onSubmit={handleSearchSubmit} className="w-full">
           <input type="search" name="search" className="w-full bg-primary" />
         </form>
       </div>

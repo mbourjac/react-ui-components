@@ -6,16 +6,11 @@ import {
   STOP_WORDS,
   isSimilarByLevenshtein,
 } from '../utils/text';
-import type { RenameProperties } from '../utils/types';
 
 export const useSearchComponents = ({
-  filterParam,
-  searchParam,
-}: RenameProperties<
-  SearchComponents,
-  'filter' | 'search',
-  'filterParam' | 'searchParam'
->) => {
+  filter: filterParam,
+  search: searchParam,
+}: SearchComponents) => {
   const normalizedSearchTerms = useMemo(
     () => normalizeString(searchParam ?? '').split(' '),
     [searchParam],
